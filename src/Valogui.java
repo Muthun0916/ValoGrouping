@@ -44,44 +44,45 @@ public class Valogui implements ActionListener, WindowListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自動生成されたメソッド・スタブ
-		System.out.println("押した");
+		if (e.getActionCommand().equals("　設定生成　")) {
+			teamGrouping();
+			stageRandom();
+		} else if (e.getActionCommand().equals("メンバー再配置")) {
+			teamGrouping();
+		} else if (e.getActionCommand().equals("ステージ再選択")) {
+			stageRandom();
+		}
+
+	}
+
+	public void teamGrouping() {
 		valo = new ValorantAllMember();
 		valo.groupingRepeat(valo, 0.5);
 		valo.showTeam();
-		//ラベルに表示 Math.floor(valo.getKDGap(valo) / 5 * 100) / 100
+
+		//ラベルに表示 少数第3位以下切り捨て
 		team1kd.setText("team1のK/D:" + Math.floor(valo.getSumKD(valo.getTeam1()) / 5 * 100) / 100);
 		team2kd.setText("team2のK/D:" + Math.floor(valo.getSumKD(valo.getTeam2()) / 5 * 100) / 100);
 		kdgap.setText("2チームのK/Dの差:" + Math.floor(valo.getKDGap(valo) / 5 * 100) / 100);
+
 		member1.clear();
 		for (ValorantAve player : valo.getTeam1()) {
 			member1.add(player.getName());
 		}
-		/*
-		member1.add("一蘭");
-		member1.add("来来亭");
-		member1.add("天下一品");
-		member1.add("神座");
-		member1.add("横綱ﾗｰﾒﾝ");
-		*/
 		for (int i = 0; i < 5; i++) {
 			team1s.get(i).setText(member1.get(i));
 		}
 
 		member2.clear();
-		/*
-		member2.add("キラメキ");
-		member2.add("きりん寺");
-		member2.add("あっぱれらーめん");
-		member2.add("希望新風");
-		member2.add("ﾗｰﾒﾝまこと屋");
-		*/
 		for (ValorantAve player : valo.getTeam2()) {
 			member2.add(player.getName());
 		}
 		for (int i = 0; i < 5; i++) {
 			team2s.get(i).setText(member2.get(i));
 		}
+	}
 
+	public void stageRandom() {
 		//ステージ処理
 		ArrayList<String> availStage = new ArrayList<>();
 		for (Checkbox stage : stages) {
@@ -105,14 +106,13 @@ public class Valogui implements ActionListener, WindowListener {
 		frame.addWindowListener(this);
 		Image icon = null;
 		try {
-			icon = ImageIO.read(new File("Pachinkobitobig.jpg"));
+			icon = ImageIO.read(new File("okd.jpg"));
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 		frame.setIconImage(icon);
 		Panel allPanel = new Panel(new GridLayout(2, 1));
-
 		Panel topPanel = new Panel(new GridLayout(2, 2));
 		topPanel.setBackground(Color.white);
 		leftPanel = new Panel(new GridLayout(6, 1));
@@ -125,18 +125,27 @@ public class Valogui implements ActionListener, WindowListener {
 		Panel leftButtonPanel = new Panel(new GridBagLayout());
 		leftButtonPanel.setBackground(Color.gray);
 		GridBagConstraints gbc = new GridBagConstraints();
-		Button run = new Button("設定生成");
+		Button run = new Button("　設定生成　");
 		run.addActionListener(this);
-		gbc.gridx = 0;
+		gbc.gridx = 3;
 		gbc.gridy = 0;
 		gbc.gridwidth = 1;
-		gbc.gridheight = 2;
+		gbc.gridheight = 5;
 		gbc.weightx = 1.0d;
-		gbc.anchor = GridBagConstraints.WEST;
+		//gbc.anchor = GridBagConstraints.WEST;
 		leftButtonPanel.add(run, gbc);
 		Button onlymen = new Button("メンバー再配置");
-		gbc.anchor = GridBagConstraints.CENTER;
+		onlymen.addActionListener(this);
+		gbc.gridx = 3;
+		gbc.gridy = 5;
+		///gbc.anchor = GridBagConstraints.EAST;
 		leftButtonPanel.add(onlymen, gbc);
+		Button stageButton = new Button("ステージ再選択");
+		stageButton.addActionListener(this);
+		gbc.gridx = 3;
+		gbc.gridy = 10;
+		//gbc.anchor = GridBagConstraints.WEST;
+		leftButtonPanel.add(stageButton, gbc);
 
 		Panel toprightPanel = new Panel(new GridLayout(7, 1));
 
@@ -203,12 +212,10 @@ public class Valogui implements ActionListener, WindowListener {
 
 		team2s = returnTeam(member2);
 		leftPanel.add(labelteam1);
-		//leftPanel.add(team1);
 		for (TextField team : team1s) {
 			leftPanel.add(team);
 		}
 		rightPanel.add(labelteam2);
-		//rightPanel.add(team2);
 		for (TextField team : team2s) {
 			rightPanel.add(team);
 		}
