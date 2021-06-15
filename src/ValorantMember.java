@@ -1,6 +1,6 @@
 /**
  * kd, kda比を計算するクラス
- * @author kitagawashoma
+ * @author pukusyou
  */
 public class ValorantMember {
 
