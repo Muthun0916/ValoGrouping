@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"Valogui","h":"","u":""},{"l":"ValorantAllMember","h":"","u":""},{"l":"ValorantAve","h":"","u":""},{"l":"ValorantMember","h":"","u":""},{"l":"ValorantScore","h":"","u":""},{"l":"すべてのクラス","h":"","u":"allclasses-index.html"}]
