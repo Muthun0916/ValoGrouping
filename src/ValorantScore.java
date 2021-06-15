@@ -13,6 +13,11 @@ public class ValorantScore {
 	private ArrayList<Double> kdList;
 	private ArrayList<Double> kdaList;
 
+	/**
+	 * コンストラクタ
+	 * @param name プレイヤーの名前
+	 * @param team 元所属していたチーム
+	 */
 	public ValorantScore(String name, String team) {
 		this.name = name;
 		this.team = team;
@@ -23,10 +28,18 @@ public class ValorantScore {
 		kdaList = new ArrayList<Double>();
 	}
 
+	/**
+	 * 引数をArrayListのKillListに追加します
+	 * @param kill キル数
+	 */
 	public void setKillList(int kill) {
 		killList.add(kill);
 	}
 
+	/**
+	 * 
+	 * @param death
+	 */
 	public void setDeathList(int death) {
 		deathList.add(death);
 	}
