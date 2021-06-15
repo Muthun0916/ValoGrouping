@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 
 public class Valogui implements ActionListener, WindowListener {
 
+	//ウィンドウサイズを設定
 	private static final int FRAME_WIDTH = 480;
 	private static final int FRAME_HEIGHT = 500;
 
@@ -82,8 +83,8 @@ public class Valogui implements ActionListener, WindowListener {
 		}
 	}
 
+	//ステージ処理
 	public void stageRandom() {
-		//ステージ処理
 		ArrayList<String> availStage = new ArrayList<>();
 		for (Checkbox stage : stages) {
 			if (!stage.getState())
@@ -100,18 +101,25 @@ public class Valogui implements ActionListener, WindowListener {
 		}
 	}
 
+	/**
+	 * GUIウィンドウ作成
+	 */
 	public void createView() {
 		frame = new Frame("ValoSelector");
 		frame.setResizable(false);
 		frame.addWindowListener(this);
 		Image icon = null;
+
 		try {
 			icon = ImageIO.read(new File("okd.jpg"));
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+
 		frame.setIconImage(icon);
+
+		//上部フレーム作成
 		Panel allPanel = new Panel(new GridLayout(2, 1));
 		Panel topPanel = new Panel(new GridLayout(2, 2));
 		topPanel.setBackground(Color.white);
@@ -132,23 +140,21 @@ public class Valogui implements ActionListener, WindowListener {
 		gbc.gridwidth = 1;
 		gbc.gridheight = 5;
 		gbc.weightx = 1.0d;
-		//gbc.anchor = GridBagConstraints.WEST;
 		leftButtonPanel.add(run, gbc);
+
 		Button onlymen = new Button("メンバー再配置");
 		onlymen.addActionListener(this);
 		gbc.gridx = 3;
 		gbc.gridy = 5;
-		///gbc.anchor = GridBagConstraints.EAST;
 		leftButtonPanel.add(onlymen, gbc);
+
 		Button stageButton = new Button("ステージ再選択");
 		stageButton.addActionListener(this);
 		gbc.gridx = 3;
 		gbc.gridy = 10;
-		//gbc.anchor = GridBagConstraints.WEST;
 		leftButtonPanel.add(stageButton, gbc);
 
 		Panel toprightPanel = new Panel(new GridLayout(7, 1));
-
 		stages.add(new Checkbox("ブリーズ", false));
 		stages.add(new Checkbox("アイスボックス", false));
 		stages.add(new Checkbox("バインド", false));
@@ -212,9 +218,11 @@ public class Valogui implements ActionListener, WindowListener {
 
 		team2s = returnTeam(member2);
 		leftPanel.add(labelteam1);
+
 		for (TextField team : team1s) {
 			leftPanel.add(team);
 		}
+
 		rightPanel.add(labelteam2);
 		for (TextField team : team2s) {
 			rightPanel.add(team);
@@ -229,6 +237,7 @@ public class Valogui implements ActionListener, WindowListener {
 
 	}
 
+	//チームをテキストフィールドにセット
 	public ArrayList<TextField> returnTeam(ArrayList<String> member) {
 		ArrayList<TextField> team = new ArrayList<>();
 		for (String name : member) {
@@ -245,6 +254,7 @@ public class Valogui implements ActionListener, WindowListener {
 
 	}
 
+	//ウィンドウ閉じるときにシステム終了
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO 自動生成されたメソッド・スタブ
