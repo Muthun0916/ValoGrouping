@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * 一人の情報を保持するクラス
- * @author kitagawashoma
+ * @author pukusyou
  */
 public class ValorantScore {
 
