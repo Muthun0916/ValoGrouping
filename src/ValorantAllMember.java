@@ -8,16 +8,26 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * すべての出場プレイヤーのデータを保持し、チーム分けやマップ選択を行うクラス
+ * 数時間で作ったからすごい汚いプログラムやけど許して(TAT)ぴえん
+ * @author pukusyou
+ */
+
 public class ValorantAllMember {
 
+	/*各プレイヤーの情報を保持する参照型変数*/
 	private ValorantAve pukusyouAve, selraAve, mutsuttoAve, gandouAve, aiuAve, momoAve, furamuAve, mattyaajiAve,
-			kisuAve, qaqAve, ojiAve,
-			kishiAve;
+		kisuAve, qaqAve, ojiAve,
+		kishiAve;
 
+	/*2チームのキルデス比の差の最大値 */
 	private double kdGap = 1.5;
 
+	/*マップ一覧が格納*/
 	private ArrayList<String> valoMap = new ArrayList<String>();
 
+	/*元チームが何人いるか保持する変数*/
 	int pTeam1 = 0, kTeam1 = 0, pTeam2 = 0, kTeam2 = 0;
 
 	private ArrayList<ValorantAve> kouJunArrayList = new ArrayList<ValorantAve>();
@@ -25,6 +35,7 @@ public class ValorantAllMember {
 	private ArrayList<ValorantAve> team2 = new ArrayList<ValorantAve>();
 	Map<Integer, ValorantAve> map;
 
+	/*各プレイヤーの情報を持つ配列*/
 	int[] pukusyouKill = { 20, 13, 18, 19, 6, 9, 13, 14, 16, 9, 18, 17, 18, 9, 5, 32, 21 };//カスタム2戦追加
 	int[] pukusyouDeath = { 11, 6, 8, 16, 15, 19, 17, 13, 15, 6, 11, 18, 18, 15, 13, 16, 20 };
 	int[] selraKill = { 25, 18, 18, 20, 7, 8, 14, 7, 25, 22, 18, 10, 6, 21, 21, 28, 18 };//カスタム2戦追加
@@ -51,40 +62,28 @@ public class ValorantAllMember {
 	int[] ojiKill = { 35 };
 	int[] ojiDeath = { 15 };
 
-	public void showAllMember() {
-		for (ValorantAve ave : kouJunArrayList) {
-			ave.showKDAve();
-		}
-	}
-
+	/**
+	 * コンストラクタ
+	 * それぞれオブジェクト生成や追加
+	 */
 	public ValorantAllMember() {
 		String team = "P";
 		pukusyouAve = new ValorantAve("pukusyou", team, pukusyouKill, pukusyouDeath);
-		//		pukusyouAve.showKDAve();
 		selraAve = new ValorantAve("selra", team, selraKill, selraDeath);
-		//		selraAve.showKDAve();
 		mutsuttoAve = new ValorantAve("Mutsuttochan", team, mutsuttochanKill, mutsuttochanDeath);
-		//		mutsuttoAve.showKDAve();
 		gandouAve = new ValorantAve("gandou", team, supergandouKill, supergandouDeath);
-		//		gandouAve.showKDAve();
 		aiuAve = new ValorantAve("aiu", team, aiuKill, aiuDeath);
-		//		aiuAve.showKDAve();
 		momoAve = new ValorantAve("ぬこもも", team, momoKill, momoDeath);
-		//		momoAve.showKDAve();
 
 		team = "K";
 		furamuAve = new ValorantAve("furamu32", team, furamu32Kill, furamu32Death);
-		//		furamuAve.showKDAve();
 		mattyaajiAve = new ValorantAve("mattyaaji", team, mattyaajiKill, mattyaajiDeath);
-		//		mattyaajiAve.showKDAve();
 		kisuAve = new ValorantAve("きーすぅ", team, kisuKill, kisuDeath);
-		//		kisuAve.showKDAve();
 		qaqAve = new ValorantAve("QAQ", team, qaqKill, qaqDeath);
-		//		qaqAve.showKDAve();
 		kishiAve = new ValorantAve("岸ゆうや", team, kishiKill, kishiDeath);
-		//		kishiAve.showKDAve();
 		ojiAve = new ValorantAve("おじちょぴ", team, ojiKill, ojiDeath);
 		kouJun();
+
 		valoMap.add("ブリーズ");
 		valoMap.add("アイスボックス");
 		valoMap.add("バインド");
@@ -94,6 +93,18 @@ public class ValorantAllMember {
 
 	}
 
+	/**
+	 * 全員のkd比を表示します
+	 */
+	public void showAllMember() {
+		for (ValorantAve ave : kouJunArrayList) {
+			ave.showKDAve();
+		}
+	}
+
+	/**
+	 * kd比の降順にします
+	 */
 	public void kouJun() {
 		Map<ValorantAve, Double> map = new HashMap<ValorantAve, Double>();
 		map.put(pukusyouAve, pukusyouAve.getKDAvg());
@@ -112,17 +123,19 @@ public class ValorantAllMember {
 		Collections.sort(list, new Comparator<Entry<ValorantAve, Double>>() {
 			//compareを使用して値を比較する
 			public int compare(Entry<ValorantAve, Double> obj1, Entry<ValorantAve, Double> obj2) {
-				//降順
+				
 				return obj2.getValue().compareTo(obj1.getValue());
 			}
 		});
 
-		// 7. ループで要素順に値を取得する
 		for (Entry<ValorantAve, Double> entry : list) {
 			kouJunArrayList.add(entry.getKey());
 		}
 	}
 
+	/**
+	 * ランダムにチームを分けます
+	 */
 	public void grouping() {
 		Random rand = new Random();
 		map = new HashMap<Integer, ValorantAve>();
@@ -131,7 +144,6 @@ public class ValorantAllMember {
 		map.put(i++, selraAve);
 		map.put(i++, mutsuttoAve);
 		map.put(i++, ojiAve);
-		//map.put(i++, gandouAve);
 		map.put(i++, aiuAve);
 		map.put(i++, momoAve);
 		map.put(i++, furamuAve);
@@ -155,6 +167,9 @@ public class ValorantAllMember {
 
 	}
 
+	/**
+	 * 2チーム表示します
+	 */
 	public void showTeam() {
 		System.out.println("team1:");
 		for (ValorantAve team : team1) {
@@ -170,9 +185,11 @@ public class ValorantAllMember {
 
 	}
 
-	//元チームを返す
-
-	//チームの合計KDを返す
+	/**
+	 * チームの合計kd比を返します
+	 * @param team チーム
+	 * @return 合計kd
+	 */
 	public double getSumKD(ArrayList<ValorantAve> team) {
 		double sum = 0;
 		for (ValorantAve num : team) {
@@ -181,20 +198,34 @@ public class ValorantAllMember {
 		return sum;
 	}
 
+	/**
+	 * team1に属しているメンバーのオブジェクトを返します
+	 * @return team1のオブジェクトのリスト
+	 */
 	public ArrayList<ValorantAve> getTeam1() {
 		return team1;
 	}
 
+	/**
+	 * team2に属しているメンバーのオブジェクトを返します
+	 * @return team2のオブジェクトのリスト
+	 */
 	public ArrayList<ValorantAve> getTeam2() {
 		return team2;
 	}
 
+	/**
+	 * チームごとのkd比の平均の差を返します
+	 */
 	public double getKDGap(ValorantAllMember valorantAllMember) {
 		kdGap = Math.abs(valorantAllMember.getSumKD(valorantAllMember.getTeam1()) / 5 -
 				valorantAllMember.getSumKD(valorantAllMember.getTeam2()) / 5);
 		return kdGap;
 	}
 
+	/**
+	 * チームに前に属していたチームが何人いるか数えます
+	 */
 	public void numOfTeam() {
 		pTeam1 = 0;
 		kTeam1 = 0;
@@ -216,6 +247,11 @@ public class ValorantAllMember {
 		}
 	}
 
+	/**
+	 * 前に属していたチームの人が多すぎる場合やkdに差がありすぎる場合もう一度チームを分け直します
+	 * @param valorantAllMember 自クラスのオブジェクト
+	 * @param gapMax kd比の差の最大値
+	 */
 	public void groupingRepeat(ValorantAllMember valorantAllMember, double gapMax) {
 		valorantAllMember.grouping();
 
@@ -224,28 +260,33 @@ public class ValorantAllMember {
 			team1.clear();
 			team2.clear();
 			valorantAllMember.grouping();
-			//			System.out.println(valorantAllMember.getKDGap(this));
 			numOfTeam();
 		}
 	}
 
+	/**
+	 * valoMapのゲッター
+	 * @return valoMap
+	 */
 	public ArrayList<String> getValoMap() {
 		return valoMap;
 	}
 
+	/**
+	 * banMapをリストから削除し、その後のリストを返します
+	 * @param banMap1 banするマップの1つ目
+	 * @param banMap2 banするマップの2つ目
+	 * @return banMapをリストから削除した後のリスト
+	 */
 	public String selectMap(String banMap1, String banMap2) {
 		Random random = new Random();
-		//		System.out.println(valoMap);
 		for (int i = 0; i < valoMap.size(); i++) {
 			if (valoMap.get(i).equals(banMap1)) {
 				valoMap.remove(i);
-				//				System.out.println(valoMap);
 			} else if (valoMap.get(i).equals(banMap2)) {
 				valoMap.remove(i);
-				//				System.out.println(valoMap);
 			}
 		}
-		//		System.out.println(valoMap);
 		int num = random.nextInt(valoMap.size());
 		return valoMap.get(num);
 
