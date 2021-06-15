@@ -295,8 +295,6 @@ public class ValorantAllMember {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		ValorantAllMember valorantAllMember = new ValorantAllMember();
-		//		valorantAllMember.showAllMember();
-		//		System.out.println();
 		valorantAllMember.groupingRepeat(valorantAllMember, 0.5);
 		valorantAllMember.showTeam();
 		System.out.println();
